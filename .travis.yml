@@ -1,0 +1,36 @@
+language:
+  - java
+
+sudo:
+  - false
+
+dist:
+  - xenial
+
+notifications:
+  email:
+    - false
+
+language:
+  - java
+
+jdk:
+  - openjdk8
+
+install:
+  - true
+
+cache:
+  directories:
+    - $HOME/.m2/
+
+before_install:
+  - chmod +x mvnw
+  - chmod +x .travis/build.sh
+  - chmod +x .travis/success.sh
+
+script:
+  - ./.travis/build.sh
+
+after_success:
+  - ./.travis/success.sh
