@@ -52,7 +52,7 @@
 		<mvn.jar.version>3.1.2</mvn.jar.version>
 		<mvn.webdav.version>3.2.0</mvn.webdav.version>
 		<mvn.dependency.version>3.1.1</mvn.dependency.version>
-		<mvn.spotbugs.version>3.1.12</mvn.spotbugs.version>
+		<mvn.spotbugs.version>3.1.12.2</mvn.spotbugs.version>
 		<mvn.pmd.version>3.12.0</mvn.pmd.version>
 		<mvn.antrun.version>1.8</mvn.antrun.version>
 		<mvn.jacoco.version>0.8.4</mvn.jacoco.version>
