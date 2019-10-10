@@ -65,7 +65,7 @@
 		<lombok.version>1.18.10</lombok.version>
 		<checkstyle.version>8.24</checkstyle.version>
 
-		<obj.asm.version>7.2-beta</obj.asm.version>
+		<obj.asm.version>7.2</obj.asm.version>
 		<antlr.version>4.7.2</antlr.version>
 
 		<maven.javadoc.skip>true</maven.javadoc.skip>
