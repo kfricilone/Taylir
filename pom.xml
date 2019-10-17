@@ -55,7 +55,7 @@
 		<mvn.spotbugs.version>3.1.12.2</mvn.spotbugs.version>
 		<mvn.pmd.version>3.12.0</mvn.pmd.version>
 		<mvn.antrun.version>1.8</mvn.antrun.version>
-		<mvn.jacoco.version>0.8.4</mvn.jacoco.version>
+		<mvn.jacoco.version>0.8.5</mvn.jacoco.version>
 		<mvn.coveralls.version>4.3.0</mvn.coveralls.version>
 
 		<ju.api.version>5.5.2</ju.api.version>
