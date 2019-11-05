@@ -49,7 +49,7 @@
 		<mvn.release.version>2.5.3</mvn.release.version>
 		<mvn.javadoc.version>3.1.1</mvn.javadoc.version>
 		<mvn.checkstyle.version>3.1.0</mvn.checkstyle.version>
-		<mvn.jar.version>3.1.2</mvn.jar.version>
+		<mvn.jar.version>3.2.0</mvn.jar.version>
 		<mvn.webdav.version>3.3.3</mvn.webdav.version>
 		<mvn.dependency.version>3.1.1</mvn.dependency.version>
 		<mvn.spotbugs.version>3.1.12.2</mvn.spotbugs.version>
