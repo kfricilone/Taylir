@@ -62,20 +62,26 @@
 
 		<dependency>
 			<groupId>me.kfricilone</groupId>
-			<artifactId>common-comp</artifactId>
+			<artifactId>java-obf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>me.kfricilone</groupId>
-			<artifactId>common-obf</artifactId>
+			<artifactId>java-opt</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>me.kfricilone</groupId>
-			<artifactId>common-opt</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4</artifactId>
+			<version>${antlr.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>${jopt.version}</version>
 		</dependency>
 	</dependencies>
 

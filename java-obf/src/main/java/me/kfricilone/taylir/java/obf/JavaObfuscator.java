@@ -26,12 +26,10 @@
 
 package me.kfricilone.taylir.java.obf;
 
-import me.kfricilone.taylir.common.obf.Obfuscator;
-
 /**
  * Created by Kyle Fricilone on Jun 12, 2018.
  */
-public class JavaObfuscator extends Obfuscator
+public class JavaObfuscator
 {
 
 }

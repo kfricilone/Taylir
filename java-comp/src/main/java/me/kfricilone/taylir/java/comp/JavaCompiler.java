@@ -26,12 +26,10 @@
 
 package me.kfricilone.taylir.java.comp;
 
-import me.kfricilone.taylir.common.comp.Compiler;
-
 /**
  * Created by Kyle Fricilone on Jun 12, 2018.
  */
-public class JavaCompiler extends Compiler
+public class JavaCompiler
 {
 
 }

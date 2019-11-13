@@ -26,12 +26,10 @@
 
 package me.kfricilone.taylir.java.arch;
 
-import me.kfricilone.taylir.common.arch.Architecture;
-
 /**
  * Created by Kyle Fricilone on Jun 12, 2018.
  */
-public class JavaArchitecture extends Architecture
+public class JavaArchitecture
 {
 
 }

@@ -26,12 +26,10 @@
 
 package me.kfricilone.taylir.java.opt;
 
-import me.kfricilone.taylir.common.opt.Optimizer;
-
 /**
  * Created by Kyle Fricilone on Jun 12, 2018.
  */
-public class JavaOptimizer extends Optimizer
+public class JavaOptimizer
 {
 
 }

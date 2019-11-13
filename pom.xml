@@ -67,6 +67,7 @@
 
 		<obj.asm.version>7.2-beta</obj.asm.version>
 		<antlr.version>4.7.2</antlr.version>
+		<jopt.version>5.0.4</jopt.version>
 
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 
@@ -135,12 +136,8 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>common-arch</module>
-		<module>common-comp</module>
 		<module>common-llir</module>
 		<module>common-mlir</module>
-		<module>common-obf</module>
-		<module>common-opt</module>
 		<module>java-arch</module>
 		<module>java-comp</module>
 		<module>java-obf</module>

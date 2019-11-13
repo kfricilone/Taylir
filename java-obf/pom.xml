@@ -56,12 +56,6 @@
 
 		<dependency>
 			<groupId>me.kfricilone</groupId>
-			<artifactId>common-obf</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>me.kfricilone</groupId>
 			<artifactId>java-arch</artifactId>
 			<version>${project.version}</version>
 		</dependency>
