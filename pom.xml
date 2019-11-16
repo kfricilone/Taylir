@@ -48,6 +48,8 @@
 		<mvn.surefire.version>3.0.0-M3</mvn.surefire.version>
 		<mvn.release.version>2.5.3</mvn.release.version>
 		<mvn.javadoc.version>3.1.1</mvn.javadoc.version>
+		<mvn.site.version>3.8.2</mvn.site.version>
+		<mvn.pinfo.version>3.0.0</mvn.pinfo.version>
 		<mvn.checkstyle.version>3.1.0</mvn.checkstyle.version>
 		<mvn.jar.version>3.2.0</mvn.jar.version>
 		<mvn.webdav.version>3.3.4</mvn.webdav.version>
@@ -70,9 +72,7 @@
 		<jopt.version>5.0.4</jopt.version>
 
 		<maven.javadoc.skip>true</maven.javadoc.skip>
-
-		<!--suppress UnresolvedMavenProperty -->
-		<cov.token>${env.COV_TOKEN}</cov.token>
+		<maven.site.skip>true</maven.site.skip>
 	</properties>
 
 	<licenses>
@@ -114,6 +114,10 @@
 			<id>kfricilone-repo</id>
 			<url>dav:https://repo.kfricilone.me</url>
 		</repository>
+		<site>
+			<id>kfricilone-docs</id>
+			<url>dav:https://docs.kfricilone.me/taylir</url>
+		</site>
 	</distributionManagement>
 
 	<repositories>
@@ -183,12 +187,6 @@
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>${mvn.antrun.version}</version>
 				</plugin>
-
-				<plugin>
-					<groupId>org.antlr</groupId>
-					<artifactId>antlr4-maven-plugin</artifactId>
-					<version>${antlr.version}</version>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -236,10 +234,6 @@
 				<configuration>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>
-					<!--<release>12</release>-->
-					<!--<compilerArgs>
-						<arg>enable-preview</arg>
-					</compilerArgs>-->
 				</configuration>
 			</plugin>
 
@@ -265,6 +259,15 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+      			<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-site-plugin</artifactId>
+        		<version>${mvn.site.version}</version>
+				<configuration>
+					<inputDirectory>${project.reporting.outputDirectory}/apidocs/</inputDirectory>
+				</configuration>
+      		</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -397,4 +400,26 @@
 			</extension>
 		</extensions>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${mvn.javadoc.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${mvn.pinfo.version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

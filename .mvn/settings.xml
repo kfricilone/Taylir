@@ -32,9 +32,37 @@
       <id>taylir</id>
       <properties>
         <maven.javadoc.skip>false</maven.javadoc.skip>
+        <maven.site.skip>false</maven.site.skip>
+        <cov.token>${env.COV_TOKEN}</cov.token>
       </properties>
+
+      <repositories>
+        <repository>
+          <id>kfricilone-repo</id>
+          <url>https://repo.kfricilone.me</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
     </profile>
   </profiles>
+
+  <servers>
+    <server>
+      <id>kfricilone-repo</id>
+      <username>kfricilone</username>
+      <password>${env.KF_PASSWORD}</password>
+    </server>
+    <server>
+      <id>kfricilone-docs</id>
+      <username>kfricilone</username>
+      <password>${env.KF_PASSWORD}</password>
+    </server>
+  </servers>
 
   <activeProfiles>
     <activeProfile>taylir</activeProfile>
