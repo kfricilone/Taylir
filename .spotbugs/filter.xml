@@ -26,6 +26,6 @@
   -->
 <FindBugsFilter>
 	<Match>
-		<Class name="~.*?\.antlr.*" />
+		<Class name="~.*?\.parser.*" />
 	</Match>
 </FindBugsFilter>
