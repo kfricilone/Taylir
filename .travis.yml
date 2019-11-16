@@ -26,12 +26,8 @@ cache:
 
 before_install:
   - chmod +x mvnw
-  - chmod +x .travis/prebuild.sh
   - chmod +x .travis/build.sh
   - chmod +x .travis/success.sh
-
-before_script:
-  - ./.travis/prebuild.sh
 
 script:
   - ./.travis/build.sh
