@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Kyle Fricilone
+ * Copyright (c) 2018-2019, Kyle Fricilone <kfricilone@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
