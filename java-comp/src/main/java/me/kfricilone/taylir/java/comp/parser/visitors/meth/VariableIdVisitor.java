@@ -24,21 +24,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.ast.impl.VariableIdNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class VariableIdVisitor extends JavaParserBaseVisitor<VariableIdNode>
 {
 
-	private final boolean debugInfo;
+	@Override
+	public VariableIdNode visitVariableDeclaratorId(JavaParser.VariableDeclaratorIdContext ctx)
+	{
+		String name = ctx.IDENTIFIER().getText();
+		int dims = 0;
 
-	private final Classpath classpath;
+		if (ctx.LBRACK() != null)
+		{
+			dims = ctx.LBRACK().size();
+		}
+
+		return new VariableIdNode(name, dims);
+	}
 
 }

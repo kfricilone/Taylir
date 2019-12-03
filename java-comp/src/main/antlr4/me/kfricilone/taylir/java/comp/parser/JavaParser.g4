@@ -395,7 +395,7 @@ statement
     | BREAK IDENTIFIER? SEMI                                                        # BreakStatement
     | CONTINUE IDENTIFIER? SEMI                                                     # ContinueStatement
     | SEMI                                                                          # EmptyStatement
-    | statementExpression=expression SEMI                                           # ExpressionStatement
+    | expression SEMI                                                               # ExpressionStatement
     | identifierLabel=IDENTIFIER COLON statement                                    # LabeledStatement
     ;
 
@@ -481,8 +481,8 @@ expression
     | LPAREN typeType RPAREN expression                                     # CastExpression
     | expression postfix=(INC | DEC)                                        # PostfixExpression
     | prefix=(ADD | SUB | INC | DEC) expression                             # PrefixExpression
-    | prefix=(TILDE|BANG) expression                                        # NotExpression
-    | expression bop=(ADD|SUB|MUL|DIV|MOD) expression                       # ArithExpression
+    | prefix=(TILDE | BANG) expression                                      # NotExpression
+    | expression bop=(ADD | SUB | MUL | DIV | MOD) expression               # ArithExpression
     | expression (LSHIFT | RSHIFT | URSHIFT) expression                     # ShiftExpression
     | expression bop=(LE | GE | GT | LT) expression                         # ComparisonExpression
     | expression bop=INSTANCEOF typeType                                    # InstanceofExpression

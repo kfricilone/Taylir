@@ -24,11 +24,64 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.common.mlir.exprs.attribute;
+package me.kfricilone.taylir.common.mlir.stmts;
+
+import lombok.EqualsAndHashCode;
+import lombok.Value;
+import me.kfricilone.taylir.common.mlir.Expr;
+import me.kfricilone.taylir.common.mlir.Stmt;
+import me.kfricilone.taylir.common.mlir.StmtVisitor;
 
 /**
- * Created by Kyle Fricilone on Jan 16, 2019.
+ * Created by Kyle Fricilone on Feb 21, 2019.
  */
-public class StaticAttributeExpr
+@Value
+@EqualsAndHashCode(callSuper = false)
+public class ExprStmt extends Stmt
 {
+
+	/**
+	 * The expr to be popped by this statement
+	 */
+	private final Expr value;
+
+	public ExprStmt(Expr value)
+	{
+		this.value = value;
+
+		getChildren().add(value);
+	}
+
+	/**
+	 * Calls the corresponding visitor method
+	 *
+	 * @param visitor The statement visitor
+	 */
+	@Override
+	public void accept(StmtVisitor visitor)
+	{
+		visitor.visitExprStmt(this);
+	}
+
+	/**
+	 * Creates a copy of an expression
+	 *
+	 * @return The copy
+	 */
+	@Override
+	public Stmt copy()
+	{
+		return new ExprStmt(value.copy());
+	}
+
+	/**
+	 * Formats the expr to a pseudocode representation.
+	 *
+	 * @return The pseudocode representation
+	 */
+	@Override
+	public String toPseudocode()
+	{
+		return value.toPseudocode();
+	}
 }

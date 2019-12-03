@@ -24,21 +24,53 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.cls;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.impl.MemberDeclNode;
+import me.kfricilone.taylir.java.comp.ast.types.MemberNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+import me.kfricilone.taylir.java.comp.parser.visitors.mod.ModifierVisitor;
+
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class ClassBodyDeclVisitor extends JavaParserBaseVisitor<MemberDeclNode>
 {
 
-	private final boolean debugInfo;
+	private static final ModifierVisitor modifierVisitor = new ModifierVisitor();
 
-	private final Classpath classpath;
+	private final MemberDeclVisitor memberVisitor;
+
+	public ClassBodyDeclVisitor(CompilationContext cctx)
+	{
+		memberVisitor = new MemberDeclVisitor(cctx);
+	}
+
+	@Override
+	public MemberDeclNode visitClassBodyDeclaration(JavaParser.ClassBodyDeclarationContext ctx)
+	{
+
+
+		if (ctx.memberDeclaration() != null)
+		{
+			int access = 0;
+			List<JavaParser.ModifierContext> modifiers = ctx.modifier();
+			for (int i = 0; i < modifiers.size(); i++)
+			{
+				JavaParser.ModifierContext modifier = modifiers.get(i);
+				access |= modifier.accept(modifierVisitor);
+			}
+
+			MemberNode memberNode = ctx.memberDeclaration().accept(memberVisitor);
+
+			return new MemberDeclNode(access, memberNode);
+		}
+
+		return null;
+	}
 
 }

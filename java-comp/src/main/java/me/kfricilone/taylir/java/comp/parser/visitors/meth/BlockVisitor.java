@@ -24,21 +24,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.common.mlir.Stmt;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.impl.MethodBodyNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class BlockVisitor extends JavaParserBaseVisitor<MethodBodyNode>
 {
 
-	private final boolean debugInfo;
+	private final BlockStatementVisitor stmtVisitor;
 
-	private final Classpath classpath;
+	public BlockVisitor(CompilationContext cctx)
+	{
+		stmtVisitor = new BlockStatementVisitor(cctx);
+	}
+
+	@Override
+	public MethodBodyNode visitBlock(JavaParser.BlockContext ctx)
+	{
+
+		List<Stmt> statements = new ArrayList<>();
+		if (ctx.blockStatement() != null)
+		{
+			List<JavaParser.BlockStatementContext> bctxs = ctx.blockStatement();
+			for (int i = 0; i < bctxs.size(); i++)
+			{
+				JavaParser.BlockStatementContext bctx = bctxs.get(i);
+				statements.add(bctx.accept(stmtVisitor));
+			}
+		}
+
+		return new MethodBodyNode(statements);
+	}
 
 }

@@ -28,11 +28,14 @@ package me.kfricilone.taylir.common.mlir;
 
 import me.kfricilone.taylir.common.mlir.exprs.ArithmeticExpr;
 import me.kfricilone.taylir.common.mlir.exprs.BitwiseExpr;
+import me.kfricilone.taylir.common.mlir.exprs.KeywordExpr;
+import me.kfricilone.taylir.common.mlir.exprs.cst.CharCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.DoubleCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.FloatCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.IntCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.LongCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.StringCstExpr;
+import me.kfricilone.taylir.common.mlir.exprs.field.StaticFieldExpr;
 import me.kfricilone.taylir.common.mlir.exprs.invoke.InvokeStaticExpr;
 import me.kfricilone.taylir.common.mlir.exprs.invoke.InvokeVirtualExpr;
 import me.kfricilone.taylir.common.mlir.exprs.var.IntVarExpr;
@@ -44,9 +47,19 @@ public class ExprVisitor
 {
 
 	/**
+	 * Visits a keyword expression
+	 *
+	 * @param keywordExpr The keyword
+	 */
+	public void visitKeywordExpr(KeywordExpr keywordExpr)
+	{
+
+	}
+
+	/**
 	 * Visits a double constant expression
 	 *
-	 * @param doubleCst The int constant
+	 * @param doubleCst The double constant
 	 */
 	public void visitDoubleCstExpr(DoubleCstExpr doubleCst)
 	{
@@ -56,7 +69,7 @@ public class ExprVisitor
 	/**
 	 * Visits a float constant expression
 	 *
-	 * @param floatCst The int constant
+	 * @param floatCst The float constant
 	 */
 	public void visitFloatCstExpr(FloatCstExpr floatCst)
 	{
@@ -76,7 +89,7 @@ public class ExprVisitor
 	/**
 	 * Visits a long constant expression
 	 *
-	 * @param longCst The int constant
+	 * @param longCst The long constant
 	 */
 	public void visitLongCstExpr(LongCstExpr longCst)
 	{
@@ -86,9 +99,19 @@ public class ExprVisitor
 	/**
 	 * Visits a string constant expression
 	 *
-	 * @param stringCst The int constant
+	 * @param stringCst The string constant
 	 */
 	public void visitStringCstExpr(StringCstExpr stringCst)
+	{
+
+	}
+
+	/**
+	 * Visits a character constant expression
+	 *
+	 * @param stringCst The char constant
+	 */
+	public void visitCharCstExpr(CharCstExpr stringCst)
 	{
 
 	}
@@ -139,6 +162,16 @@ public class ExprVisitor
 	 * @param intVar The int var
 	 */
 	public void visitIntVarExpr(IntVarExpr intVar)
+	{
+
+	}
+
+	/**
+	 * Visits a static field expression
+	 *
+	 * @param statField The static field
+	 */
+	public void visitStaticFieldExpr(StaticFieldExpr statField)
 	{
 
 	}

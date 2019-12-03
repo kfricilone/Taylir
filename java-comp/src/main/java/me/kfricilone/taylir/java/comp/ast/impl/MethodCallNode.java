@@ -24,21 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.common.mlir.Expr;
+
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 23, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class MethodCallNode
 {
 
-	private final boolean debugInfo;
+	private final String name;
 
-	private final Classpath classpath;
+	private final List<Expr> exprs;
 
 }

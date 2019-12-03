@@ -24,21 +24,47 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.arch.Classpath;
+import me.kfricilone.taylir.java.arch.JavaArchitecture;
+import me.kfricilone.taylir.java.arch.Jdk;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 17, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class JavaCompilerTest
 {
 
-	private final boolean debugInfo;
+	//@TempDir
+	//private static Path output;
 
-	private final Classpath classpath;
+	private static JavaCompiler compiler;
+
+	@BeforeAll
+	public static void init()
+	{
+		Configurator.setRootLevel(Level.DEBUG);
+
+		File jdk = new File(System.getProperty("java.home"));
+		Classpath cp = new Classpath(new Jdk(jdk), new ArrayList<>());
+		JavaArchitecture arch = new JavaArchitecture(true, cp);
+
+		compiler = new JavaCompiler(arch, false, false);
+	}
+
+	@Test
+	public void testCompileHelloWorld()
+	{
+		compiler.compile(new File("Test.java"));
+	}
 
 }

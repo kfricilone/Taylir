@@ -24,21 +24,58 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.java.comp.ast.types.MemberNode;
+import org.objectweb.asm.Type;
+
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 23, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class MethodDeclNode extends MemberNode
 {
 
-	private final boolean debugInfo;
+	private final Type type;
+	private final String name;
+	private final List<ParameterNode> parameters;
+	private final List<String> throwsList;
+	private final MethodBodyNode body;
 
-	private final Classpath classpath;
+	@Override
+	public String toPseudocode()
+	{
+		StringBuilder bldr = new StringBuilder();
+		bldr.append(type.getClassName()).append(" ");
+		bldr.append(name).append("(");
 
+		if (parameters.size() > 0)
+		{
+			StringBuilder params = new StringBuilder();
+			for (int i = 0; i < parameters.size(); i++)
+			{
+				ParameterNode param = parameters.get(i);
+				params.append(param.toPseudocode()).append(", ");
+			}
+
+			bldr.append(params.substring(0, params.length() - 2));
+		}
+
+		return bldr.append(")\n").append(body.toPseudocode()).toString();
+	}
+
+	public String getDescriptor()
+	{
+		Type[] params = new Type[parameters.size()];
+		for (int i = 0; i < parameters.size(); i++)
+		{
+			ParameterNode param = parameters.get(i);
+			params[i] = param.getType();
+		}
+
+		return Type.getMethodDescriptor(type, params);
+	}
 }

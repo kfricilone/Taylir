@@ -24,21 +24,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.codegen;
 
+import me.kfricilone.taylir.common.mlir.exprs.cst.StringCstExpr;
+import me.kfricilone.taylir.common.mlir.exprs.field.StaticFieldExpr;
+import me.kfricilone.taylir.common.mlir.exprs.invoke.InvokeVirtualExpr;
+import org.objectweb.asm.MethodVisitor;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.common.mlir.ExprVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
 @AllArgsConstructor
-public class JavaArchitecture
+public class ExprGenVisitor extends ExprVisitor
 {
 
-	private final boolean debugInfo;
+	private final MethodVisitor methVisitor;
 
-	private final Classpath classpath;
+	@Override
+	public void visitStringCstExpr(StringCstExpr stringCst)
+	{
+		methVisitor.visitLdcInsn(stringCst.getCst());
+	}
+
+	@Override
+	public void visitInvokeVirtualExpr(InvokeVirtualExpr invokeVirtual)
+	{
+		methVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, invokeVirtual.getOwner(), invokeVirtual.getName(), invokeVirtual.getDescriptor(), false);
+	}
+
+	@Override
+	public void visitStaticFieldExpr(StaticFieldExpr statField)
+	{
+		methVisitor.visitFieldInsn(Opcodes.GETSTATIC, statField.getOwner(), statField.getName(), statField.getDesc());
+	}
 
 }

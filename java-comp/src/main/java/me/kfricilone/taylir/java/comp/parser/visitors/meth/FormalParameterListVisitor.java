@@ -24,21 +24,56 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.impl.ParameterNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class FormalParameterListVisitor extends JavaParserBaseVisitor<List<ParameterNode>>
 {
 
-	private final boolean debugInfo;
+	private final FormalParameterVisitor paramVisitor;
 
-	private final Classpath classpath;
+	public FormalParameterListVisitor(CompilationContext cctx)
+	{
+		paramVisitor = new FormalParameterVisitor(cctx);
+	}
+
+	@Override
+	public List<ParameterNode> visitFormalParameterList(JavaParser.FormalParameterListContext ctx)
+	{
+
+		List<ParameterNode> parameters = new ArrayList<>();
+
+		if (ctx.formalParameter() == null)
+		{
+			parameters.add(ctx.lastFormalParameter().accept(paramVisitor));
+		}
+
+		else
+		{
+			List<JavaParser.FormalParameterContext> pctxs = ctx.formalParameter();
+			for (int i = 0; i < pctxs.size(); i++)
+			{
+				JavaParser.FormalParameterContext pctx = pctxs.get(i);
+				parameters.add(pctx.accept(paramVisitor));
+			}
+
+			if (ctx.lastFormalParameter() != null)
+			{
+				parameters.add(ctx.lastFormalParameter().accept(paramVisitor));
+			}
+		}
+
+		return parameters;
+	}
 
 }

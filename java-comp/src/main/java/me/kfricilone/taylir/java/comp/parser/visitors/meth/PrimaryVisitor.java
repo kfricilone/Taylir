@@ -24,21 +24,59 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.common.mlir.Expr;
+import me.kfricilone.taylir.common.mlir.exprs.KeywordExpr;
+import me.kfricilone.taylir.common.mlir.exprs.cst.StringCstExpr;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class PrimaryVisitor extends JavaParserBaseVisitor<Expr>
 {
 
-	private final boolean debugInfo;
+	private static final LiteralVisitor litVisitor = new LiteralVisitor();
 
-	private final Classpath classpath;
+	private final ExpressionVisitor exprVisitor;
+
+	public PrimaryVisitor(ExpressionVisitor exprVisitor)
+	{
+		this.exprVisitor = exprVisitor;
+	}
+
+	@Override
+	public Expr visitPrimary(JavaParser.PrimaryContext ctx)
+	{
+		if (ctx.LPAREN() != null)
+		{
+			return ctx.expression().accept(exprVisitor);
+		}
+
+		else if (ctx.THIS() != null)
+		{
+			return new KeywordExpr(KeywordExpr.Keyword.THIS);
+		}
+
+		else if (ctx.SUPER() != null)
+		{
+			return new KeywordExpr(KeywordExpr.Keyword.SUPER);
+		}
+
+		else if (ctx.literal() != null)
+		{
+			return ctx.literal().accept(litVisitor);
+		}
+
+		else if (ctx.IDENTIFIER() != null)
+		{
+			return new StringCstExpr(ctx.IDENTIFIER().getText());
+		}
+
+		return null;
+	}
+
 
 }

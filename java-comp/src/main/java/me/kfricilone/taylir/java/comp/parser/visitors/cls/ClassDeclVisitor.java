@@ -24,21 +24,50 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.cls;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.impl.ClassDeclNode;
+import me.kfricilone.taylir.java.comp.ast.impl.MemberDeclNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class ClassDeclVisitor extends JavaParserBaseVisitor<ClassDeclNode>
 {
 
-	private final boolean debugInfo;
+	private final ClassBodyDeclVisitor memberVisitor;
 
-	private final Classpath classpath;
+	public ClassDeclVisitor(CompilationContext cctx)
+	{
+		memberVisitor = new ClassBodyDeclVisitor(cctx);
+	}
+
+	@Override
+	public ClassDeclNode visitClassDeclaration(JavaParser.ClassDeclarationContext ctx)
+	{
+
+		String name = ctx.IDENTIFIER().getText();
+
+		List<MemberDeclNode> members = new ArrayList<>();
+		JavaParser.ClassBodyContext bctx = ctx.classBody();
+		if (bctx.classBodyDeclaration() != null)
+		{
+			List<JavaParser.ClassBodyDeclarationContext> mctxs = bctx.classBodyDeclaration();
+			for (int i = 0; i < mctxs.size(); i++)
+			{
+				JavaParser.ClassBodyDeclarationContext mctx = mctxs.get(i);
+				members.add(mctx.accept(memberVisitor));
+			}
+		}
+
+
+		return new ClassDeclNode(name, members);
+	}
 
 }

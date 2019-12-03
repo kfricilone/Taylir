@@ -24,21 +24,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.impl.MethodBodyNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.util.ArrayList;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class MethodBodyVisitor extends JavaParserBaseVisitor<MethodBodyNode>
 {
 
-	private final boolean debugInfo;
+	private final BlockVisitor blockVisitor;
 
-	private final Classpath classpath;
+	public MethodBodyVisitor(CompilationContext cctx)
+	{
+		this.blockVisitor = new BlockVisitor(cctx);
+	}
+
+
+	@Override
+	public MethodBodyNode visitMethodBody(JavaParser.MethodBodyContext ctx)
+	{
+		if (ctx.block() != null)
+		{
+			return ctx.block().accept(blockVisitor);
+		}
+
+		return new MethodBodyNode(new ArrayList<>());
+	}
 
 }

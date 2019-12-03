@@ -24,21 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.java.comp.ast.AstNode;
+import me.kfricilone.taylir.java.comp.ast.types.TypeNode;
+
+import java.lang.reflect.Modifier;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class TypeDeclNode extends AstNode
 {
 
-	private final boolean debugInfo;
+	private final int access;
+	private final TypeNode type;
 
-	private final Classpath classpath;
-
+	@Override
+	public String toPseudocode()
+	{
+		StringBuilder bldr = new StringBuilder();
+		return bldr.append(Modifier.toString(access)).append(" ").append(type.toPseudocode()).toString();
+	}
 }

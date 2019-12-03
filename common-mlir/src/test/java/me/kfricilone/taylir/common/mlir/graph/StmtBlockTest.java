@@ -33,7 +33,7 @@ import me.kfricilone.taylir.common.mlir.exprs.cst.IntCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.cst.StringCstExpr;
 import me.kfricilone.taylir.common.mlir.exprs.invoke.InvokeStaticExpr;
 import me.kfricilone.taylir.common.mlir.exprs.var.IntVarExpr;
-import me.kfricilone.taylir.common.mlir.stmts.PopStmt;
+import me.kfricilone.taylir.common.mlir.stmts.ExprStmt;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -67,8 +67,8 @@ public class StmtBlockTest
 		args.add(invoke);
 
 		InvokeStaticExpr invoke2 = new InvokeStaticExpr("class2", "method8", "(ILjava/lang/String;I)V", args);
-		PopStmt pop = new PopStmt(invoke2);
-		PopStmt pop2 = (PopStmt) pop.copy();
+		ExprStmt pop = new ExprStmt(invoke2);
+		ExprStmt pop2 = (ExprStmt) pop.copy();
 
 		StmtBlock block = new StmtBlock(0);
 		block.getStatements().add(pop);

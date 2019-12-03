@@ -24,21 +24,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.cls;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.ast.types.MemberNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+import me.kfricilone.taylir.java.comp.parser.visitors.meth.MethodDeclVisitor;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class MemberDeclVisitor extends JavaParserBaseVisitor<MemberNode>
 {
 
-	private final boolean debugInfo;
+	private final MethodDeclVisitor methVisitor;
 
-	private final Classpath classpath;
+	public MemberDeclVisitor(CompilationContext cctx)
+	{
+		methVisitor = new MethodDeclVisitor(cctx);
+	}
+
+	@Override
+	public MemberNode visitMemberDeclaration(JavaParser.MemberDeclarationContext ctx)
+	{
+		if (ctx.methodDeclaration() != null)
+		{
+			JavaParser.MethodDeclarationContext mctx = ctx.methodDeclaration();
+			return mctx.accept(methVisitor);
+		}
+
+		return null;
+	}
 
 }

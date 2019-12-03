@@ -257,6 +257,7 @@
 				<version>${mvn.surefire.version}</version>
 				<configuration>
 					<enableAssertions>true</enableAssertions>
+					<workingDirectory>${project.basedir}/src/test/resources/</workingDirectory>
 				</configuration>
 			</plugin>
 
@@ -272,6 +273,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<silent>true</silent>
+				</configuration>
 			</plugin>
 
 			<plugin>

@@ -50,12 +50,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-tree</artifactId>
-			<version>${obj.asm.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
@@ -65,6 +59,18 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>me.kfricilone</groupId>
+			<artifactId>common-mlir</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-tree</artifactId>
+			<version>${obj.asm.version}</version>
 		</dependency>
 
 		<dependency>

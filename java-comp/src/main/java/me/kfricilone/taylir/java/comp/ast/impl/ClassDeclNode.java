@@ -24,21 +24,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.java.comp.ast.types.TypeNode;
+
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class ClassDeclNode extends TypeNode
 {
 
-	private final boolean debugInfo;
+	private final String name;
+	private final List<MemberDeclNode> members;
 
-	private final Classpath classpath;
+	@Override
+	public String toPseudocode()
+	{
+		StringBuilder bldr = new StringBuilder();
+		bldr.append("class ").append(name).append("\n{\n\n");
 
+
+		for (int i = 0; i < members.size(); i++)
+		{
+			MemberDeclNode member = members.get(i);
+			bldr.append(member.toPseudocode()).append("\n");
+		}
+
+		return bldr.append("}").toString();
+	}
 }

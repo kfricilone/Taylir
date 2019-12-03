@@ -24,21 +24,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.java.comp.ast.AstNode;
+import org.objectweb.asm.Type;
+
+import java.lang.reflect.Modifier;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 23, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class ParameterNode extends AstNode
 {
 
-	private final boolean debugInfo;
+	private final int access;
+	private final Type type;
+	private final VariableIdNode variable;
 
-	private final Classpath classpath;
+	@Override
+	public String toPseudocode()
+	{
+		StringBuilder bldr = new StringBuilder();
 
+		if (access > 0)
+		{
+			bldr.append(Modifier.toString(access)).append(" ");
+		}
+
+		bldr.append(type.getClassName()).append(" ");
+		return bldr.append(variable.getName()).toString();
+	}
 }

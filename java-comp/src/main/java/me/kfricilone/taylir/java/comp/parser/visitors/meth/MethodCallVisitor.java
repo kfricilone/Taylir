@@ -24,21 +24,53 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.common.mlir.Expr;
+import me.kfricilone.taylir.java.comp.ast.impl.MethodCallNode;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class MethodCallVisitor extends JavaParserBaseVisitor<MethodCallNode>
 {
 
-	private final boolean debugInfo;
+	private final ExpressionVisitor exprVisitor;
 
-	private final Classpath classpath;
+	public MethodCallVisitor(ExpressionVisitor exprVisitor)
+	{
+		this.exprVisitor = exprVisitor;
+	}
+
+	@Override
+	public MethodCallNode visitMethodCall(JavaParser.MethodCallContext ctx)
+	{
+
+		List<Expr> expressions = new ArrayList<>();
+		if (ctx.expressionList() != null)
+		{
+			JavaParser.ExpressionListContext lctx = ctx.expressionList();
+			List<JavaParser.ExpressionContext> ectxs = lctx.expression();
+			for (int i = 0; i < ectxs.size(); i++)
+			{
+				JavaParser.ExpressionContext ectx = ectxs.get(i);
+				expressions.add(ectx.accept(exprVisitor));
+			}
+		}
+
+		if (ctx.IDENTIFIER() != null)
+		{
+			String name = ctx.IDENTIFIER().getText();
+			return new MethodCallNode(name, expressions);
+		}
+
+		return null;
+	}
+
 
 }

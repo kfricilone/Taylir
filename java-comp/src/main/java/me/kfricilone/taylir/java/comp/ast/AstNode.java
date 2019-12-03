@@ -24,21 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+package me.kfricilone.taylir.java.comp.ast;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public abstract class AstNode
 {
 
-	private final boolean debugInfo;
-
-	private final Classpath classpath;
+	public abstract String toPseudocode();
 
 }

@@ -24,24 +24,67 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.common.mlir;
+package me.kfricilone.taylir.java.comp.parser.visitors.type;
 
-import me.kfricilone.taylir.common.mlir.stmts.ExprStmt;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+import org.objectweb.asm.Type;
 
 /**
- * Created by Kyle Fricilone on Jan 16, 2019.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-public class StmtVisitor
+public class TypeTypeVisitor extends JavaParserBaseVisitor<Type>
 {
 
-	/**
-	 * Visits an expression statement
-	 *
-	 * @param expr The expr
-	 */
-	public void visitExprStmt(ExprStmt expr)
+	private static final PrimitiveTypeVisitor primVisitor = new PrimitiveTypeVisitor();
+
+	private final CompilationContext cctx;
+
+	public TypeTypeVisitor(CompilationContext cctx)
+	{
+		this.cctx = cctx;
+	}
+
+	@Override
+	public Type visitTypeType(JavaParser.TypeTypeContext ctx)
 	{
 
+		Type type;
+
+		if (ctx.classOrInterfaceType() != null)
+		{
+			JavaParser.ClassOrInterfaceTypeContext tctx = ctx.classOrInterfaceType();
+			StringBuilder bldr = new StringBuilder(tctx.IDENTIFIER(0).getText());
+
+			if (tctx.IDENTIFIER().size() > 1)
+			{
+				for (int i = 1; i < tctx.IDENTIFIER().size(); i++)
+				{
+					bldr.append("/").append(tctx.IDENTIFIER(i));
+				}
+			}
+
+			String name = cctx.resolveName(bldr.toString());
+			type = Type.getObjectType(name);
+		}
+
+		else
+		{
+			type = ctx.primitiveType().accept(primVisitor);
+		}
+
+		int dims = ctx.LBRACK().size();
+
+		StringBuilder bldr = new StringBuilder();
+		for (int i = 0; i < dims; i++)
+		{
+			bldr.append("[");
+		}
+
+		bldr.append(type.getDescriptor());
+
+		return Type.getType(bldr.toString());
 	}
 
 }

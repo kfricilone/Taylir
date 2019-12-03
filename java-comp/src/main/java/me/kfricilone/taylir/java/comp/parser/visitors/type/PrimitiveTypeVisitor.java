@@ -24,21 +24,57 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.type;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+import org.objectweb.asm.Type;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class PrimitiveTypeVisitor extends JavaParserBaseVisitor<Type>
 {
 
-	private final boolean debugInfo;
+	@Override
+	public Type visitPrimitiveType(JavaParser.PrimitiveTypeContext ctx)
+	{
+		if (ctx.BOOLEAN() != null)
+		{
+			return Type.BOOLEAN_TYPE;
+		}
 
-	private final Classpath classpath;
+		else if (ctx.CHAR() != null)
+		{
+			return Type.CHAR_TYPE;
+		}
+
+		else if (ctx.BYTE() != null)
+		{
+			return Type.BYTE_TYPE;
+		}
+
+		else if (ctx.SHORT() != null)
+		{
+			return Type.SHORT_TYPE;
+		}
+
+		else if (ctx.INT() != null)
+		{
+			return Type.INT_TYPE;
+		}
+
+		else if (ctx.LONG() != null)
+		{
+			return Type.LONG_TYPE;
+		}
+
+		else if (ctx.FLOAT() != null)
+		{
+			return Type.FLOAT_TYPE;
+		}
+
+		return Type.DOUBLE_TYPE;
+	}
 
 }

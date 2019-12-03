@@ -24,21 +24,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.codegen;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.ast.impl.ClassDeclNode;
+import me.kfricilone.taylir.java.comp.ast.impl.MemberDeclNode;
+import me.kfricilone.taylir.java.comp.ast.impl.MethodBodyNode;
+import me.kfricilone.taylir.java.comp.ast.impl.MethodDeclNode;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
+import me.kfricilone.taylir.java.comp.ast.impl.TypeDeclNode;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class CodeGenerator
 {
 
-	private final boolean debugInfo;
+	public static ClassNode generate(TypeDeclNode node)
+	{
+		ClassDeclNode clsNode = (ClassDeclNode) node.getType();
 
-	private final Classpath classpath;
+		ClassNode cn = new ClassNode();
+		cn.visit(Opcodes.V1_8, node.getAccess(), clsNode.getName(), null, "java/lang/Object", new String[] {});
+
+		for (MemberDeclNode memNode : clsNode.getMembers())
+		{
+			MethodDeclNode methNode = (MethodDeclNode) memNode.getMember();
+
+			MethodVisitor mv = cn.visitMethod(memNode.getAccess(), methNode.getName(), methNode.getDescriptor(), null, new String[] {});
+
+			MethodBodyNode body = methNode.getBody();
+			if (body.getStatements().size() > 0)
+			{
+				StmtGenVisitor stmtGen = new StmtGenVisitor(mv);
+				body.getStatements().forEach(s -> s.accept(stmtGen));
+				mv.visitInsn(Opcodes.RETURN);
+			}
+		}
+
+		return cn;
+	}
 
 }

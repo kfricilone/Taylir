@@ -24,21 +24,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.ast.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
+import me.kfricilone.taylir.common.mlir.Stmt;
+import me.kfricilone.taylir.java.comp.ast.AstNode;
+
+import java.util.List;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 23, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+@Value
+public class MethodBodyNode extends AstNode
 {
 
-	private final boolean debugInfo;
+	private final List<Stmt> statements;
 
-	private final Classpath classpath;
+	@Override
+	public String toPseudocode()
+	{
+		StringBuilder bldr = new StringBuilder();
 
+		if (statements.size() > 0)
+		{
+			bldr.append("{\n");
+
+			for (int i = 0; i < statements.size(); i++)
+			{
+				Stmt stmt = statements.get(i);
+				bldr.append(stmt.toPseudocode()).append("\n");
+			}
+
+			bldr.append("}\n");
+		}
+
+		return bldr.toString();
+	}
 }

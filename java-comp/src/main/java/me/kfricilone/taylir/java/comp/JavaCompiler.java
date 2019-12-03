@@ -26,10 +26,69 @@
 
 package me.kfricilone.taylir.java.comp;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import me.kfricilone.taylir.java.arch.JavaArchitecture;
+import me.kfricilone.taylir.java.comp.ast.impl.TypeDeclNode;
+import me.kfricilone.taylir.java.comp.parser.JavaLexer;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.visitors.CompilationVisitor;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 /**
  * Created by Kyle Fricilone on Jun 12, 2018.
  */
+@Log4j2
+@AllArgsConstructor
 public class JavaCompiler
 {
+
+	private final JavaArchitecture architecture;
+	private final boolean optimize;
+	private final boolean obfuscate;
+
+	public void compile(File src)
+	{
+		compileFile(src);
+	}
+
+	private void compileFile(File file)
+	{
+		try (FileInputStream fis = new FileInputStream(file))
+		{
+			CharStream input = CharStreams.fromStream(fis);
+			JavaLexer lexer = new JavaLexer(input);
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			JavaParser parser = new JavaParser(tokens);
+			ParseTree tree = parser.compilationUnit();
+
+			CompilationVisitor visitor = new CompilationVisitor(architecture.getClasspath());
+			TypeDeclNode type = tree.accept(visitor);
+
+			System.out.println(type.toPseudocode());
+
+			/*ClassNode cn = CodeGenerator.generate(type);
+
+			ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+			cn.accept(writer);
+
+			try (FileOutputStream fos = new FileOutputStream(new File("Test.class")))
+			{
+				fos.write(writer.toByteArray());
+			}*/
+		}
+
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 }

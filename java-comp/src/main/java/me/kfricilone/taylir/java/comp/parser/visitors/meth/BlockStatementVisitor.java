@@ -24,62 +24,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.common.mlir.stmts;
+package me.kfricilone.taylir.java.comp.parser.visitors.meth;
 
-import lombok.EqualsAndHashCode;
 import me.kfricilone.taylir.common.mlir.Expr;
 import me.kfricilone.taylir.common.mlir.Stmt;
-import me.kfricilone.taylir.common.mlir.StmtVisitor;
+import me.kfricilone.taylir.common.mlir.stmts.ExprStmt;
+import me.kfricilone.taylir.java.comp.CompilationContext;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
 
 /**
- * Created by Kyle Fricilone on Feb 21, 2019.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@EqualsAndHashCode(callSuper = false)
-public class PopStmt extends Stmt
+public class BlockStatementVisitor extends JavaParserBaseVisitor<Stmt>
 {
 
-	/**
-	 * The expr to be popped by this statement
-	 */
-	private final Expr value;
+	private final ExpressionVisitor exprVisitor;
 
-	public PopStmt(Expr value)
+	public BlockStatementVisitor(CompilationContext cctx)
 	{
-		this.value = value;
-
-		getChildren().add(value);
+		exprVisitor = new ExpressionVisitor(cctx);
 	}
 
-	/**
-	 * Calls the corresponding visitor method
-	 *
-	 * @param visitor The statement visitor
-	 */
 	@Override
-	public void accept(StmtVisitor visitor)
+	public Stmt visitExpressionStatement(JavaParser.ExpressionStatementContext ctx)
 	{
-
+		Expr expr = ctx.expression().accept(exprVisitor);
+		return new ExprStmt(expr);
 	}
 
-	/**
-	 * Creates a copy of an expression
-	 *
-	 * @return The copy
-	 */
-	@Override
-	public Stmt copy()
-	{
-		return new PopStmt(value.copy());
-	}
 
-	/**
-	 * Formats the expr to a pseudocode representation.
-	 *
-	 * @return The pseudocode representation
-	 */
-	@Override
-	public String toPseudocode()
-	{
-		return "pop(" + value.toPseudocode() + ")";
-	}
 }

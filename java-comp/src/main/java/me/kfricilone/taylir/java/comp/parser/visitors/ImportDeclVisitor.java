@@ -24,21 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class ImportDeclVisitor extends JavaParserBaseVisitor<String>
 {
 
-	private final boolean debugInfo;
-
-	private final Classpath classpath;
+	@Override
+	public String visitImportDeclaration(JavaParser.ImportDeclarationContext ctx)
+	{
+		return ctx.qualifiedName().getText();
+	}
 
 }

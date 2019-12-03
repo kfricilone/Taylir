@@ -24,21 +24,58 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.codegen;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.common.mlir.Expr;
+import me.kfricilone.taylir.common.mlir.StmtVisitor;
+import me.kfricilone.taylir.common.mlir.exprs.InvokeExpr;
+import me.kfricilone.taylir.common.mlir.stmts.ExprStmt;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Dec 02, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class StmtGenVisitor extends StmtVisitor
 {
 
-	private final boolean debugInfo;
+	private final MethodVisitor methVisitor;
+	private final ExprGenVisitor exprVisitor;
 
-	private final Classpath classpath;
+	public StmtGenVisitor(MethodVisitor methVisitor)
+	{
+		this.methVisitor = methVisitor;
+		this.exprVisitor = new ExprGenVisitor(methVisitor);
+	}
+
+	@Override
+	public void visitExprStmt(ExprStmt exprStmt)
+	{
+		Expr expr = exprStmt.getValue();
+		expr.accept(exprVisitor);
+
+		if (expr instanceof InvokeExpr)
+		{
+			InvokeExpr invokeExpr = (InvokeExpr) expr;
+
+			String desc = invokeExpr.getDescriptor();
+			Type type = Type.getType(desc);
+			Type returnType = type.getReturnType();
+
+			if (!returnType.equals(Type.VOID_TYPE))
+			{
+				if (returnType.equals(Type.LONG_TYPE) || returnType.equals(Type.DOUBLE_TYPE))
+				{
+					methVisitor.visitInsn(Opcodes.POP2);
+				}
+
+				else
+				{
+					methVisitor.visitInsn(Opcodes.POP);
+				}
+			}
+		}
+	}
 
 }

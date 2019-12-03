@@ -24,21 +24,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package me.kfricilone.taylir.java.arch;
+package me.kfricilone.taylir.java.comp.parser.visitors.mod;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import me.kfricilone.taylir.java.comp.parser.JavaParser;
+import me.kfricilone.taylir.java.comp.parser.JavaParserBaseVisitor;
+
+import java.lang.reflect.Modifier;
 
 /**
- * Created by Kyle Fricilone on Jun 12, 2018.
+ * Created by Kyle Fricilone on Nov 11, 2019.
  */
-@Getter
-@AllArgsConstructor
-public class JavaArchitecture
+public class ModifierVisitor extends JavaParserBaseVisitor<Integer>
 {
 
-	private final boolean debugInfo;
+	private static final ClassOrInterfaceModifierVisitor modifierVisitor = new ClassOrInterfaceModifierVisitor();
 
-	private final Classpath classpath;
+	@Override
+	public Integer visitModifier(JavaParser.ModifierContext ctx)
+	{
+		if (ctx.classOrInterfaceModifier() != null)
+		{
+			return ctx.classOrInterfaceModifier().accept(modifierVisitor);
+		}
+
+		else if (ctx.NATIVE() != null)
+		{
+			return Modifier.NATIVE;
+		}
+
+		else if (ctx.SYNCHRONIZED() != null)
+		{
+			return Modifier.SYNCHRONIZED;
+		}
+
+		else if (ctx.TRANSIENT() != null)
+		{
+			return Modifier.TRANSIENT;
+		}
+
+		return Modifier.VOLATILE;
+	}
 
 }
