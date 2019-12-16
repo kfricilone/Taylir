@@ -71,7 +71,7 @@
 		<obj.asm.version>7.2</obj.asm.version>
 		<antlr.version>4.7.2</antlr.version>
 		<jopt.version>5.0.4</jopt.version>
-		<log4j.version>2.12.1</log4j.version>
+		<log4j.version>2.13.0</log4j.version>
 
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<maven.site.skip>true</maven.site.skip>
