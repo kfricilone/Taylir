@@ -51,7 +51,7 @@
 		<mvn.javadoc.version>3.1.1</mvn.javadoc.version>
 		<mvn.site.version>3.8.2</mvn.site.version>
 		<mvn.pinfo.version>3.0.0</mvn.pinfo.version>
-		<mvn.checkstyle.version>3.1.0</mvn.checkstyle.version>
+		<mvn.checkstyle.version>3.1.1</mvn.checkstyle.version>
 		<mvn.jar.version>3.2.0</mvn.jar.version>
 		<mvn.webdav.version>3.3.4</mvn.webdav.version>
 		<mvn.dependency.version>3.1.1</mvn.dependency.version>
