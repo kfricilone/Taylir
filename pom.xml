@@ -54,7 +54,7 @@
 		<mvn.checkstyle.version>3.1.1</mvn.checkstyle.version>
 		<mvn.jar.version>3.2.0</mvn.jar.version>
 		<mvn.webdav.version>3.3.4</mvn.webdav.version>
-		<mvn.dependency.version>3.1.1</mvn.dependency.version>
+		<mvn.dependency.version>3.1.2</mvn.dependency.version>
 		<mvn.spotbugs.version>4.0.4</mvn.spotbugs.version>
 		<mvn.pmd.version>3.13.0</mvn.pmd.version>
 		<mvn.antrun.version>1.8</mvn.antrun.version>
