@@ -68,7 +68,7 @@
 		<lombok.version>1.18.12</lombok.version>
 		<checkstyle.version>8.34</checkstyle.version>
 
-		<obj.asm.version>7.3.1</obj.asm.version>
+		<obj.asm.version>8.0.1</obj.asm.version>
 		<antlr.version>4.8-1</antlr.version>
 		<jopt.version>5.0.4</jopt.version>
 		<log4j.version>2.13.3</log4j.version>
